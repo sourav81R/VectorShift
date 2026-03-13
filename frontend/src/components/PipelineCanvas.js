@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import ReactFlow, { Background, Controls, MiniMap } from 'reactflow';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -37,7 +37,7 @@ const getNodeColor = (node) => nodeRegistry[node.type]?.color || '#64748b';
 
 export const PipelineCanvas = () => {
   const reactFlowWrapper = useRef(null);
-  const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const reactFlowInstanceRef = useRef(null);
   const {
     nodes,
     edges,
@@ -63,7 +63,7 @@ export const PipelineCanvas = () => {
   const onDrop = useCallback((event) => {
     event.preventDefault();
 
-    if (!reactFlowInstance || !reactFlowWrapper.current) {
+    if (!reactFlowInstanceRef.current || !reactFlowWrapper.current) {
       return;
     }
 
@@ -78,7 +78,7 @@ export const PipelineCanvas = () => {
     }
 
     const bounds = reactFlowWrapper.current.getBoundingClientRect();
-    const position = reactFlowInstance.project({
+    const position = reactFlowInstanceRef.current.project({
       x: event.clientX - bounds.left,
       y: event.clientY - bounds.top,
     });
@@ -91,7 +91,7 @@ export const PipelineCanvas = () => {
       position,
       data: getInitNodeData(nodeId, nodeType),
     });
-  }, [addNode, getInitNodeData, getNodeID, reactFlowInstance]);
+  }, [addNode, getInitNodeData, getNodeID]);
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -106,13 +106,13 @@ export const PipelineCanvas = () => {
     setNodes(getLayoutedElements(nodes, edges, direction));
 
     window.requestAnimationFrame(() => {
-      reactFlowInstance?.fitView({ padding: 0.2, duration: 500 });
+      reactFlowInstanceRef.current?.fitView({ padding: 0.2, duration: 500 });
     });
-  }, [edges, nodes, reactFlowInstance, setNodes]);
+  }, [edges, nodes, setNodes]);
 
   const fitCanvas = useCallback(() => {
-    reactFlowInstance?.fitView({ padding: 0.2, duration: 500 });
-  }, [reactFlowInstance]);
+    reactFlowInstanceRef.current?.fitView({ padding: 0.2, duration: 500 });
+  }, []);
 
   return (
     <section className="canvas-card">
@@ -141,7 +141,9 @@ export const PipelineCanvas = () => {
             onConnect={onConnect}
             onDrop={onDrop}
             onDragOver={onDragOver}
-            onInit={setReactFlowInstance}
+            onInit={(instance) => {
+              reactFlowInstanceRef.current = instance;
+            }}
             snapGrid={[20, 20]}
             fitView
             proOptions={{ hideAttribution: true }}
