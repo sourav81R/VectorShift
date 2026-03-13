@@ -258,11 +258,13 @@
     var(--bg-surface);
   border: 1px solid rgba(99, 102, 241, 0.28);
   box-shadow: 0 18px 34px rgba(99, 102, 241, 0.18);
+  justify-items: center;
 }
 
 .submit-card > div {
   display: grid;
   gap: 6px;
+  text-align: center;
 }
 
 .submit-note {
@@ -450,6 +452,7 @@
   font-weight: 700;
   letter-spacing: 0.01em;
   box-shadow: 0 16px 28px rgba(99, 102, 241, 0.28);
+  align-self: center;
 }
 
 .canvas-card {
