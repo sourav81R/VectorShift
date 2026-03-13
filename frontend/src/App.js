@@ -54,11 +54,11 @@ function App() {
               Drag nodes from the library, connect them into a graph, and validate the pipeline with a FastAPI backend.
               The goal stays faithful to the assessment brief while presenting it like a polished internal developer tool.
             </p>
-            <div className="hero-chips">
-              <span className="hero-chip">Node Abstraction</span>
-              <span className="hero-chip">Dynamic Text Handles</span>
-              <span className="hero-chip">Backend DAG Validation</span>
-            </div>
+          </div>
+          <div className="hero-chips hero-chips--right">
+            <span className="hero-chip">Node Abstraction</span>
+            <span className="hero-chip">Dynamic Text Handles</span>
+            <span className="hero-chip">Backend DAG Validation</span>
           </div>
           <button
             type="button"
