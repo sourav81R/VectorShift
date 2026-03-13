@@ -1,0 +1,25 @@
+# macOS / Windows clutter
+.DS_Store
+DS_Store
+Thumbs.db
+
+# logs
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Frontend dependencies and build output
+frontend/node_modules/
+frontend/build/
+frontend/coverage/
+frontend/.pnp
+frontend/.pnp.js
+frontend/.git.frontend-backup/
+
+# Env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
