@@ -10,7 +10,7 @@ const renderHandles = (ports, type, position) =>
     const top = getHandleTop(index, ports.length);
     const labelStyle = {
       top,
-      [isInput ? 'left' : 'right']: 18,
+      [isInput ? 'left' : 'right']: -86,
     };
 
     return (

@@ -1,6 +1,6 @@
 .node-container {
   position: relative;
-  width: 240px;
+  width: 280px;
   min-height: 140px;
   padding: 16px 18px 14px;
   border: 1px solid #d7e0ee;
@@ -107,9 +107,16 @@
 .node-handle-label {
   position: absolute;
   transform: translateY(-50%);
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(203, 213, 225, 0.92);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
   font-size: 11px;
   color: #475569;
   pointer-events: none;
+  white-space: nowrap;
+  z-index: 2;
 }
 
 .node-field {
@@ -153,7 +160,7 @@
 }
 
 .node-description {
-  font-size: 13px;
+  font-size: 14px;
   color: #475569;
 }
 

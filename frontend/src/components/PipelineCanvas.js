@@ -152,40 +152,19 @@ export const PipelineCanvas = () => {
   }, [reactFlowInstance]);
 
   return (
-    <section
-      style={{
-        padding: 20,
-        borderRadius: 24,
-        background: '#ffffff',
-        border: '1px solid #e2e8f0',
-        boxShadow: '0 18px 42px rgba(15, 23, 42, 0.08)',
-        display: 'grid',
-        gap: 14,
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
+    <section className="canvas-card">
+      <div className="canvas-toolbar">
         <div>
-          <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6366f1' }}>
-            Workspace
-          </div>
-          <h2 style={{ margin: '6px 0 0', fontSize: 22, color: '#0f172a' }}>Pipeline canvas</h2>
+          <div className="panel-eyebrow">Workspace</div>
+          <h2 className="canvas-title">Pipeline canvas</h2>
+          <p className="canvas-copy">Lay out your graph, inspect large flows with the minimap, and keep the structure readable as it grows.</p>
         </div>
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-          <button type="button" onClick={() => autoLayout('TB')} style={actionButtonStyle}>Auto Layout</button>
-          <button type="button" onClick={fitCanvas} style={actionButtonStyle}>Fit View</button>
+        <div className="canvas-actions">
+          <button type="button" onClick={() => autoLayout('TB')} style={actionButtonStyle} className="canvas-action">Auto Layout</button>
+          <button type="button" onClick={fitCanvas} style={actionButtonStyle} className="canvas-action">Fit View</button>
         </div>
       </div>
-      <div
-        ref={reactFlowWrapper}
-        style={{
-          height: '72vh',
-          minHeight: 560,
-          borderRadius: 22,
-          overflow: 'hidden',
-          border: '1px solid #dbe3f0',
-          background: 'linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%)',
-        }}
-      >
+      <div ref={reactFlowWrapper} className="canvas-shell">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -216,8 +195,13 @@ export const PipelineCanvas = () => {
             style={minimapStyle}
           />
         </ReactFlow>
+        {nodes.length === 0 ? (
+          <div className="canvas-empty">
+            Drop a node from the library to begin. Once your graph grows, use Auto Layout and Fit View to keep everything readable.
+          </div>
+        ) : null}
       </div>
-      <p style={{ margin: 0, color: '#64748b', lineHeight: 1.5 }}>
+      <p className="canvas-copy" style={{ margin: 0 }}>
         Drag nodes from the sidebar, connect them in the canvas, and use Auto Layout to quickly organize larger pipelines.
       </p>
     </section>

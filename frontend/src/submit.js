@@ -52,23 +52,11 @@ Is DAG: ${data.is_dag ? 'Yes' : 'No'}`);
     };
 
     return (
-        <section
-            style={{
-                padding: 20,
-                borderRadius: 24,
-                background: '#ffffff',
-                border: '1px solid #e2e8f0',
-                boxShadow: '0 18px 42px rgba(15, 23, 42, 0.08)',
-                display: 'grid',
-                gap: 14
-            }}
-        >
+        <section className="submit-card">
             <div>
-                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6366f1' }}>
-                    Validation
-                </div>
-                <h3 style={{ margin: '6px 0 0', fontSize: 20, color: '#0f172a' }}>Analyze current pipeline</h3>
-                <p style={{ margin: '8px 0 0', color: '#64748b', lineHeight: 1.5 }}>
+                <div className="panel-eyebrow">Validation</div>
+                <h3 className="submit-title">Analyze current pipeline</h3>
+                <p className="submit-copy">
                     Send the current nodes and edges to the FastAPI backend to validate the graph and detect cycles.
                 </p>
             </div>
@@ -76,9 +64,9 @@ Is DAG: ${data.is_dag ? 'Yes' : 'No'}`);
                 type="button"
                 onClick={submitPipeline}
                 disabled={isSubmitting}
+                className="submit-button"
                 style={{
                     ...buttonStyle,
-                    width: '100%',
                     opacity: isSubmitting ? 0.7 : 1,
                     cursor: isSubmitting ? 'wait' : 'pointer'
                 }}
