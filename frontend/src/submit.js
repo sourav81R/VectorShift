@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { PipelineResultModal } from './components/PipelineResultModal';
 import { useStore } from './store';
 import { validatePipeline } from './utils/validatePipeline';
 
@@ -12,34 +11,22 @@ const selector = (state) => ({
 export const SubmitButton = () => {
   const { nodes, edges } = useStore(useShallow(selector));
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [modalState, setModalState] = useState({
-    isOpen: false,
-    title: '',
-    status: 'info',
-    lines: [],
-    warnings: [],
-  });
 
   const validation = useMemo(() => validatePipeline(nodes, edges), [edges, nodes]);
+  const showAlert = (title, lines, warnings = []) => {
+    const message = [
+      title,
+      '',
+      ...lines,
+      ...(warnings.length ? ['', 'Warnings:', ...warnings] : []),
+    ].join('\n');
 
-  const openModal = (nextState) => {
-    setModalState({
-      isOpen: true,
-      title: nextState.title,
-      status: nextState.status,
-      lines: nextState.lines,
-      warnings: nextState.warnings ?? [],
-    });
+    window.alert(message);
   };
 
   const submitPipeline = async () => {
     if (!validation.isValid) {
-      openModal({
-        title: 'Pipeline needs attention',
-        status: 'warning',
-        lines: validation.errors,
-        warnings: validation.warnings,
-      });
+      showAlert('Pipeline needs attention', validation.errors, validation.warnings);
       return;
     }
 
@@ -59,60 +46,43 @@ export const SubmitButton = () => {
       }
 
       const data = await response.json();
-
-      openModal({
-        title: data.is_dag ? 'Pipeline analysis passed' : 'Cycle detected in pipeline',
-        status: data.is_dag ? 'success' : 'warning',
-        lines: [
+      showAlert(
+        data.is_dag ? 'Pipeline analysis passed' : 'Cycle detected in pipeline',
+        [
           `Nodes: ${data.num_nodes}`,
           `Edges: ${data.num_edges}`,
           `Is DAG: ${data.is_dag ? 'Yes' : 'No'}`,
         ],
-        warnings: validation.warnings,
-      });
+        validation.warnings,
+      );
     } catch (error) {
-      openModal({
-        title: 'Unable to analyze pipeline',
-        status: 'danger',
-        lines: [error.message],
-        warnings: [],
-      });
+      showAlert('Unable to analyze pipeline', [error.message]);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <>
-      <section className="submit-card">
-        <div>
-          <div className="panel-eyebrow">Validation</div>
-          <h3 className="submit-title">Analyze current pipeline</h3>
-          <p className="submit-copy">
-            Send the current nodes and edges to the FastAPI backend to validate the graph and detect cycles.
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={submitPipeline}
-          disabled={isSubmitting}
-          className="submit-button"
-          style={{
-            opacity: isSubmitting ? 0.7 : 1,
-            cursor: isSubmitting ? 'wait' : 'pointer',
-          }}
-        >
-          {isSubmitting ? 'Submitting...' : 'Submit'}
-        </button>
-      </section>
-      <PipelineResultModal
-        isOpen={modalState.isOpen}
-        title={modalState.title}
-        status={modalState.status}
-        lines={modalState.lines}
-        warnings={modalState.warnings}
-        onClose={() => setModalState((current) => ({ ...current, isOpen: false }))}
-      />
-    </>
+    <section className="submit-card">
+      <div>
+        <div className="panel-eyebrow">Validation</div>
+        <h3 className="submit-title">Analyze current pipeline</h3>
+        <p className="submit-copy">
+          Send the current nodes and edges to the FastAPI backend to validate the graph and detect cycles.
+        </p>
+      </div>
+      <button
+        type="button"
+        onClick={submitPipeline}
+        disabled={isSubmitting}
+        className="submit-button"
+        style={{
+          opacity: isSubmitting ? 0.7 : 1,
+          cursor: isSubmitting ? 'wait' : 'pointer',
+        }}
+      >
+        {isSubmitting ? 'Submitting...' : 'Submit'}
+      </button>
+    </section>
   );
 };
