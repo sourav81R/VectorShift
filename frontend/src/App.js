@@ -1,9 +1,31 @@
+import { useEffect, useState } from 'react';
 import './styles/editor.css';
 import { SubmitButton } from './submit';
 import { PipelineCanvas } from './components/PipelineCanvas';
 import { Sidebar } from './components/Sidebar';
 
 function App() {
+  const [isLibraryOpen, setIsLibraryOpen] = useState(false);
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setIsLibraryOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isLibraryOpen ? 'hidden' : '';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isLibraryOpen]);
+
   return (
     <main className="app-shell">
       <div className="app-frame">
@@ -24,12 +46,46 @@ function App() {
         </section>
         <div className="editor-layout">
           <div className="sidebar-stack">
-            <Sidebar />
+            <div className="desktop-sidebar">
+              <Sidebar />
+            </div>
             <SubmitButton />
           </div>
           <PipelineCanvas />
         </div>
       </div>
+      <button
+        type="button"
+        className="mobile-library-trigger"
+        onClick={() => setIsLibraryOpen(true)}
+      >
+        Add Nodes
+      </button>
+      <div
+        className={`mobile-library-backdrop ${isLibraryOpen ? 'is-open' : ''}`}
+        onClick={() => setIsLibraryOpen(false)}
+      />
+      <aside
+        className={`mobile-library-sheet ${isLibraryOpen ? 'is-open' : ''}`}
+        aria-hidden={!isLibraryOpen}
+      >
+        <div className="mobile-library-sheet-handle" />
+        <div className="mobile-library-sheet-header">
+          <div>
+            <div className="panel-eyebrow">Mobile Library</div>
+            <h2 className="sidebar-title">Add nodes quickly</h2>
+          </div>
+          <button
+            type="button"
+            className="mobile-library-close"
+            onClick={() => setIsLibraryOpen(false)}
+            aria-label="Close node library"
+          >
+            Close
+          </button>
+        </div>
+        <Sidebar onNodeAdded={() => setIsLibraryOpen(false)} />
+      </aside>
     </main>
   );
 }

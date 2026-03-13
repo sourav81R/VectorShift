@@ -11,11 +11,11 @@ const sidebarNodes = [
   { type: 'api', label: 'API Node', shortLabel: 'API', accent: 'linear-gradient(135deg, #06b6d4, #22d3ee)', description: 'Fetch or push data to external services.' },
 ];
 
-export const Sidebar = () => (
-  <SidebarContent />
+export const Sidebar = ({ onNodeAdded }) => (
+  <SidebarContent onNodeAdded={onNodeAdded} />
 );
 
-const SidebarContent = () => {
+const SidebarContent = ({ onNodeAdded }) => {
   const addNode = useStore((state) => state.addNode);
   const getNodeID = useStore((state) => state.getNodeID);
   const nodeCount = useStore((state) => state.nodes.length);
@@ -34,6 +34,8 @@ const SidebarContent = () => {
         nodeType: type,
       },
     });
+
+    onNodeAdded?.();
   };
 
   return (

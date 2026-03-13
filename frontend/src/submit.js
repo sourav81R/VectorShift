@@ -2,16 +2,6 @@ import { useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useStore } from './store';
 
-const buttonStyle = {
-    padding: '10px 18px',
-    borderRadius: '999px',
-    border: 'none',
-    background: '#2563eb',
-    color: '#ffffff',
-    fontWeight: 600,
-    cursor: 'pointer'
-};
-
 const selector = (state) => ({
     nodes: state.nodes,
     edges: state.edges
@@ -66,7 +56,6 @@ Is DAG: ${data.is_dag ? 'Yes' : 'No'}`);
                 disabled={isSubmitting}
                 className="submit-button"
                 style={{
-                    ...buttonStyle,
                     opacity: isSubmitting ? 0.7 : 1,
                     cursor: isSubmitting ? 'wait' : 'pointer'
                 }}
