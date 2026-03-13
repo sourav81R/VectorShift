@@ -19,11 +19,14 @@
 .hero-card {
   position: relative;
   overflow: hidden;
-  padding: 26px 30px;
+  padding: 28px 32px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-soft);
-  background: var(--bg-card);
-  box-shadow: var(--shadow-soft);
+  background:
+    radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.12), transparent 45%),
+    radial-gradient(circle at 15% 80%, rgba(20, 184, 166, 0.12), transparent 40%),
+    var(--bg-card);
+  box-shadow: var(--shadow-strong);
   display: flex;
   justify-content: space-between;
   gap: 24px;
@@ -36,23 +39,23 @@
 .hero-card::after {
   content: '';
   position: absolute;
-  inset: -35% 20% auto auto;
-  width: 260px;
-  height: 260px;
+  inset: -40% 15% auto auto;
+  width: 320px;
+  height: 320px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.18), transparent 70%);
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.18), transparent 68%);
   filter: blur(12px);
-  opacity: 0.6;
+  opacity: 0.7;
   animation: hero-glow 10s ease-in-out infinite;
   pointer-events: none;
   z-index: 0;
 }
 
 .hero-card::after {
-  inset: auto auto -40% -10%;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(20, 184, 166, 0.18), transparent 70%);
+  inset: auto auto -45% -12%;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.18), transparent 68%);
   animation-delay: -4s;
 }
 
@@ -67,13 +70,13 @@
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-strong);
 }
 
 .hero-title {
   margin: 8px 0 0;
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
-  line-height: 1.1;
+  font-size: clamp(2.3rem, 4vw, 3.4rem);
+  line-height: 1.08;
   color: var(--text-primary);
 }
 
@@ -81,8 +84,8 @@
   max-width: 760px;
   margin: 12px 0 0;
   font-size: 16px;
-  line-height: 1.7;
-  color: var(--text-muted);
+  line-height: 1.75;
+  color: var(--text-secondary);
 }
 
 .hero-chips {
@@ -92,13 +95,13 @@
 }
 
 .hero-chip {
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(99, 102, 241, 0.22);
-  background: var(--accent-soft);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: #eef2ff;
   color: var(--accent-strong);
   font-weight: 600;
-  box-shadow: none;
+  box-shadow: 0 8px 16px rgba(99, 102, 241, 0.12);
 }
 
 .editor-layout {
@@ -155,6 +158,20 @@
   padding: 22px;
 }
 
+.submit-card {
+  display: grid;
+  gap: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 40%),
+    var(--bg-surface);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+.submit-card > div {
+  display: grid;
+  gap: 6px;
+}
+
 .sidebar-title,
 .submit-title,
 .canvas-title {
@@ -182,6 +199,9 @@
   display: grid;
   gap: 12px;
   padding: 18px;
+  border-radius: calc(var(--radius-lg) - 4px);
+  background: #f8fafc;
+  border: 1px solid rgba(148, 163, 184, 0.25);
 }
 
 .sidebar-card--horizontal .sidebar-title {
@@ -189,7 +209,7 @@
 }
 
 .sidebar-card--horizontal .sidebar-copy {
-  max-width: 640px;
+  max-width: 680px;
 }
 
 .sidebar-grid--horizontal {
@@ -198,11 +218,13 @@
   grid-auto-columns: minmax(220px, 1fr);
   overflow-x: auto;
   padding-bottom: 6px;
+  padding-right: 8px;
   scroll-snap-type: x proximity;
   scroll-padding: 8px;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
+  gap: 12px;
 }
 
 .sidebar-grid--horizontal .node-item {
@@ -210,6 +232,12 @@
   scroll-snap-align: start;
   opacity: 0;
   animation: card-fade-up 420ms ease-out both;
+}
+
+.sidebar-card--horizontal .node-item {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06);
 }
 
 .sidebar-grid--horizontal .node-item:nth-child(1) { animation-delay: 40ms; }
@@ -319,9 +347,9 @@
 }
 
 .canvas-card {
-  padding: 22px;
+  padding: 24px;
   display: grid;
-  gap: 16px;
+  gap: 18px;
 }
 
 .canvas-toolbar {
@@ -330,6 +358,8 @@
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .canvas-actions {
@@ -613,7 +643,7 @@
     padding-bottom: 92px;
   }
 
-  .workspace-grid .sidebar-card {
+  .sidebar-card--horizontal {
     display: none;
   }
 

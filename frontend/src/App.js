@@ -45,13 +45,10 @@ function App() {
           </div>
         </section>
         <div className="editor-layout">
-          <section className="workspace-grid">
-            <Sidebar />
-            <div className="builder-stack">
-              <PipelineCanvas />
-              <SubmitButton />
-            </div>
-          </section>
+          <div className="builder-stack">
+            <PipelineCanvas />
+            <SubmitButton />
+          </div>
         </div>
       </div>
       <button
