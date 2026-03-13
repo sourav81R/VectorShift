@@ -4,14 +4,17 @@ import { useStore } from '../store';
 
 const sidebarNodes = primaryNodeTypes.map((type) => nodeRegistry[type]);
 
-export const Sidebar = ({ onNodeAdded }) => (
-  <SidebarContent onNodeAdded={onNodeAdded} />
+export const Sidebar = ({ onNodeAdded, variant = 'stack' }) => (
+  <SidebarContent onNodeAdded={onNodeAdded} variant={variant} />
 );
 
-const SidebarContent = ({ onNodeAdded }) => {
+const SidebarContent = ({ onNodeAdded, variant }) => {
   const addNode = useStore((state) => state.addNode);
   const getNodeID = useStore((state) => state.getNodeID);
   const nodeCount = useStore((state) => state.nodes.length);
+  const isHorizontal = variant === 'horizontal';
+  const cardClassName = isHorizontal ? 'sidebar-card sidebar-card--horizontal' : 'sidebar-card';
+  const gridClassName = isHorizontal ? 'sidebar-grid sidebar-grid--horizontal' : 'sidebar-grid';
 
   const addNodeFromSidebar = (type) => {
     const nodeId = getNodeID(type);
@@ -32,7 +35,7 @@ const SidebarContent = ({ onNodeAdded }) => {
   };
 
   return (
-    <aside className="sidebar-card">
+    <aside className={cardClassName}>
       <div>
         <div className="panel-eyebrow">Node Library</div>
         <h2 className="sidebar-title">Drag or tap components into the canvas</h2>
@@ -40,7 +43,7 @@ const SidebarContent = ({ onNodeAdded }) => {
           On desktop, drag nodes into the workspace. On phones and tablets, tap a card to add it instantly and then arrange the flow.
         </p>
       </div>
-      <div className="sidebar-grid">
+      <div className={gridClassName}>
         {sidebarNodes.map((node) => (
           <NodeItem key={node.type} {...node} onSelect={addNodeFromSidebar} />
         ))}

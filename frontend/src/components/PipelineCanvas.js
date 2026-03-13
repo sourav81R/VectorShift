@@ -5,6 +5,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { nodeRegistry } from '../nodes/nodeRegistry';
 import { useStore } from '../store';
 import { getLayoutedElements } from '../utils/layout';
+import { Sidebar } from './Sidebar';
 
 import 'reactflow/dist/style.css';
 
@@ -136,6 +137,7 @@ export const PipelineCanvas = () => {
           <button type="button" onClick={fitCanvas} style={actionButtonStyle} className="canvas-action">Fit View</button>
         </div>
       </div>
+      <Sidebar variant="horizontal" />
       <div ref={reactFlowWrapper} className="canvas-shell">
         <ReactFlow
           nodes={nodes}
