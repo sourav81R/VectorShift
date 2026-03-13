@@ -297,6 +297,10 @@
   border: 1px solid rgba(148, 163, 184, 0.25);
 }
 
+.sidebar-card--horizontal .panel-eyebrow {
+  color: var(--accent-strong);
+}
+
 .sidebar-card--horizontal .sidebar-title {
   font-size: 20px;
 }
@@ -458,6 +462,18 @@
   border-bottom: 1px solid rgba(148, 163, 184, 0.2);
 }
 
+.canvas-toolbar .panel-eyebrow {
+  color: var(--accent-strong);
+}
+
+.canvas-toolbar .canvas-title {
+  font-size: 24px;
+}
+
+.canvas-toolbar .canvas-copy {
+  max-width: 760px;
+}
+
 .canvas-actions {
   display: flex;
   gap: 10px;
@@ -471,6 +487,17 @@
   background: var(--bg-surface);
   color: var(--text-primary);
   font-weight: 600;
+}
+
+.canvas-action:first-child {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 10px 18px rgba(99, 102, 241, 0.25);
+}
+
+.canvas-action:first-child:hover {
+  background: var(--accent-strong);
 }
 
 .submit-button:hover,
