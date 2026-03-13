@@ -70,6 +70,9 @@ export const SubmitButton = () => {
         <p className="submit-copy">
           Send the current nodes and edges to the FastAPI backend to validate the graph and detect cycles.
         </p>
+        <p className="submit-note">
+          VectorShift helps teams build and ship AI workflows with a visual pipeline builder, making validation and iteration fast.
+        </p>
       </div>
       <button
         type="button"
