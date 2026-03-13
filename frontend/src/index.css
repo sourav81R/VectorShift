@@ -23,6 +23,10 @@ textarea {
   font: inherit;
 }
 
+.react-flow__attribution {
+  display: none;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
