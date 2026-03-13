@@ -26,6 +26,33 @@
   --bg-surface-muted: var(--bg-muted);
   --border-soft: var(--border-light);
   --border-strong: #cbd5f5;
+  --surface-elevated: rgba(255, 255, 255, 0.96);
+  --node-icon-bg: rgba(255, 255, 255, 0.85);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg-primary: #0b1120;
+  --bg-card: #111827;
+  --bg-muted: #0f172a;
+  --border-light: rgba(148, 163, 184, 0.22);
+  --text-primary: #e2e8f0;
+  --text-secondary: #cbd5f5;
+  --text-muted: #94a3b8;
+  --accent: #818cf8;
+  --accent-strong: #a5b4fc;
+  --accent-soft: rgba(129, 140, 248, 0.2);
+  --accent-2: #2dd4bf;
+  --accent-2-soft: rgba(45, 212, 191, 0.2);
+  --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.45);
+  --shadow-strong: 0 22px 50px rgba(0, 0, 0, 0.55);
+  --bg-page: var(--bg-primary);
+  --bg-surface: var(--bg-card);
+  --bg-surface-muted: var(--bg-muted);
+  --border-soft: var(--border-light);
+  --border-strong: rgba(148, 163, 184, 0.4);
+  --surface-elevated: rgba(15, 23, 42, 0.92);
+  --node-icon-bg: rgba(15, 23, 42, 0.55);
 }
 
 body {
