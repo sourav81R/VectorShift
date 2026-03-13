@@ -1,4 +1,5 @@
 import { NodeItem } from './NodeItem';
+import { useStore } from '../store';
 
 const sidebarNodes = [
   { type: 'customInput', label: 'Input Node', shortLabel: 'IN', accent: 'linear-gradient(135deg, #3b82f6, #60a5fa)', description: 'Add starting values or uploaded content.' },
@@ -11,18 +12,44 @@ const sidebarNodes = [
 ];
 
 export const Sidebar = () => (
-  <aside className="sidebar-card">
-    <div>
-      <div className="panel-eyebrow">Node Library</div>
-      <h2 className="sidebar-title">Drag components into the canvas</h2>
-      <p className="sidebar-copy">
-        Build pipelines by dragging nodes into the workspace, then connect them to define the data flow.
-      </p>
-    </div>
-    <div className="sidebar-grid">
-      {sidebarNodes.map((node) => (
-        <NodeItem key={node.type} {...node} />
-      ))}
-    </div>
-  </aside>
+  <SidebarContent />
 );
+
+const SidebarContent = () => {
+  const addNode = useStore((state) => state.addNode);
+  const getNodeID = useStore((state) => state.getNodeID);
+  const nodeCount = useStore((state) => state.nodes.length);
+
+  const addNodeFromSidebar = (type) => {
+    const nodeId = getNodeID(type);
+    addNode({
+      id: nodeId,
+      type,
+      position: {
+        x: 80 + (nodeCount % 2) * 48,
+        y: 80 + nodeCount * 44,
+      },
+      data: {
+        id: nodeId,
+        nodeType: type,
+      },
+    });
+  };
+
+  return (
+    <aside className="sidebar-card">
+      <div>
+        <div className="panel-eyebrow">Node Library</div>
+        <h2 className="sidebar-title">Drag or tap components into the canvas</h2>
+        <p className="sidebar-copy">
+          On desktop, drag nodes into the workspace. On phones and tablets, tap a card to add it instantly and then arrange the flow.
+        </p>
+      </div>
+      <div className="sidebar-grid">
+        {sidebarNodes.map((node) => (
+          <NodeItem key={node.type} {...node} onSelect={addNodeFromSidebar} />
+        ))}
+      </div>
+    </aside>
+  );
+};

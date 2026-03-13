@@ -53,7 +53,7 @@ export const TextNode = ({ id, data }) => {
       variant="text"
       inputs={variables.map((variable) => ({ id: variable, label: variable }))}
       outputs={[{ id: 'output', label: 'Text' }]}
-      style={{ width: nodeWidth, minHeight: 220, transition: 'width 180ms ease, min-height 180ms ease' }}
+      style={{ width: `min(${nodeWidth}px, calc(100vw - 84px))`, minHeight: 220, transition: 'width 180ms ease, min-height 180ms ease' }}
     >
       <label className="node-field">
         Text
