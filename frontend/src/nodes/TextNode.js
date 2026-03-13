@@ -2,8 +2,8 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useUpdateNodeInternals } from 'reactflow';
 import { BaseNode } from './BaseNode';
 import { useStore } from '../store';
+import { extractVariables } from '../utils/extractVariables';
 
-const variablePattern = /{{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*}}/g;
 const defaultText = '{{input}}';
 
 export const TextNode = ({ id, data }) => {
@@ -16,10 +16,7 @@ export const TextNode = ({ id, data }) => {
     setText(data?.text ?? defaultText);
   }, [data?.text]);
 
-  const variables = useMemo(() => {
-    const matches = text.matchAll(variablePattern);
-    return [...new Set(Array.from(matches, (match) => match[1]))];
-  }, [text]);
+  const variables = useMemo(() => extractVariables(text), [text]);
 
   const nodeWidth = useMemo(() => {
     const longestLine = text.split('\n').reduce((max, line) => Math.max(max, line.length), 0);
@@ -50,6 +47,7 @@ export const TextNode = ({ id, data }) => {
     <BaseNode
       nodeId={id}
       title="Text Node"
+      icon="📝"
       variant="text"
       inputs={variables.map((variable) => ({ id: variable, label: variable }))}
       outputs={[{ id: 'output', label: 'Text' }]}

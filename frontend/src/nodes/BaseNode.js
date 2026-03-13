@@ -35,12 +35,16 @@ export const BaseNode = ({
   nodeId,
   style,
   variant = 'default',
+  icon,
 }) => (
   <div className={`node-container node-${variant}`} style={style}>
     {renderHandles(inputs, 'target', Position.Left)}
     {renderHandles(outputs, 'source', Position.Right)}
     <div className="node-header">
-      <h3 className="node-title">{title}</h3>
+      <div className="node-title-row">
+        {icon ? <span className="node-icon" aria-hidden="true">{icon}</span> : null}
+        <h3 className="node-title">{title}</h3>
+      </div>
       <span className="node-meta-id">{nodeId}</span>
     </div>
     <div className="node-body">{children}</div>

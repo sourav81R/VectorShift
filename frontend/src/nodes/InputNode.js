@@ -5,7 +5,7 @@ export const InputNode = ({ id, data }) => {
   const updateNodeField = useStore((state) => state.updateNodeField);
 
   return (
-    <BaseNode nodeId={id} title="Input Node" variant="input" outputs={[{ id: 'value', label: 'Value' }]}>
+    <BaseNode nodeId={id} title="Input Node" icon="📥" variant="input" outputs={[{ id: 'value', label: 'Value' }]}>
       <label className="node-field">
         Name
         <input className="node-control" value={data?.inputName ?? id.replace('customInput-', 'input_')} onChange={(event) => updateNodeField(id, 'inputName', event.target.value)} />

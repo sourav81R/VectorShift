@@ -4,6 +4,7 @@ export const LLMNode = ({ id }) => (
   <BaseNode
     nodeId={id}
     title="LLM Node"
+    icon="🤖"
     variant="llm"
     inputs={[{ id: 'system', label: 'System' }, { id: 'prompt', label: 'Prompt' }]}
     outputs={[{ id: 'response', label: 'Response' }]}

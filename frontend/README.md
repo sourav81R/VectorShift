@@ -1,13 +1,27 @@
 # VectorShift Pipeline Builder
 
-This project is a full-stack implementation of the VectorShift frontend technical assessment.
+A polished full-stack submission for the VectorShift Frontend Technical Assessment.
 
-It includes:
+The project combines a React + React Flow editor with a FastAPI analysis service. Users can compose pipelines visually, connect nodes, submit the graph to the backend, and receive a graph analysis result that includes node count, edge count, and DAG status.
 
-- a React + React Flow pipeline editor
-- reusable node abstractions for fast node creation
-- a responsive UI for desktop, tablet, and mobile devices
-- a FastAPI backend that analyzes the submitted pipeline graph
+## Overview
+
+This implementation focuses on two things:
+
+- meeting the assessment requirements end-to-end
+- demonstrating the kind of engineering decisions that make the codebase easy to extend after the assessment
+
+Core capabilities:
+
+- reusable `BaseNode` abstraction for all node UI
+- node metadata registry for scalable node definitions
+- draggable and tap-friendly node library
+- responsive canvas for desktop, tablet, and mobile
+- `TextNode` variable parsing from `{{variable}}` placeholders
+- dynamic React Flow handles generated from detected variables
+- FastAPI graph analysis with DFS-based cycle detection
+- frontend pipeline validation before backend submission
+- modal-based pipeline result feedback instead of plain browser alerts
 
 ## Tech Stack
 
@@ -18,107 +32,252 @@ It includes:
 
 ```text
 VectorShift/
-├── backend/
-│   ├── graph_utils.py
-│   ├── main.py
-│   ├── models.py
-│   └── __init__.py
-└── frontend/
-    ├── public/
-    ├── src/
-    │   ├── components/
-    │   │   ├── NodeItem.js
-    │   │   ├── PipelineCanvas.js
-    │   │   └── Sidebar.js
-    │   ├── nodes/
-    │   │   ├── APINode.js
-    │   │   ├── BaseNode.js
-    │   │   ├── ConditionNode.js
-    │   │   ├── DatabaseNode.js
-    │   │   ├── InputNode.js
-    │   │   ├── LLMNode.js
-    │   │   ├── LoggerNode.js
-    │   │   ├── MathNode.js
-    │   │   ├── OutputNode.js
-    │   │   └── TextNode.js
-    │   ├── styles/
-    │   │   ├── editor.css
-    │   │   └── node.css
-    │   ├── utils/
-    │   │   └── layout.js
-    │   ├── App.js
-    │   ├── index.js
-    │   ├── store.js
-    │   └── submit.js
-    ├── package.json
-    └── README.md
+|-- backend/
+|   |-- __init__.py
+|   |-- graph_utils.py
+|   |-- main.py
+|   `-- models.py
+`-- frontend/
+    |-- public/
+    |-- src/
+    |   |-- components/
+    |   |   |-- NodeItem.js
+    |   |   |-- PipelineCanvas.js
+    |   |   |-- PipelineResultModal.js
+    |   |   `-- Sidebar.js
+    |   |-- nodes/
+    |   |   |-- APINode.js
+    |   |   |-- BaseNode.js
+    |   |   |-- ConditionNode.js
+    |   |   |-- DatabaseNode.js
+    |   |   |-- InputNode.js
+    |   |   |-- LLMNode.js
+    |   |   |-- LoggerNode.js
+    |   |   |-- MathNode.js
+    |   |   |-- OutputNode.js
+    |   |   |-- TextNode.js
+    |   |   `-- nodeRegistry.js
+    |   |-- styles/
+    |   |   |-- editor.css
+    |   |   `-- node.css
+    |   |-- utils/
+    |   |   |-- extractVariables.js
+    |   |   |-- layout.js
+    |   |   `-- validatePipeline.js
+    |   |-- App.js
+    |   |-- index.js
+    |   |-- store.js
+    |   `-- submit.js
+    |-- package.json
+    `-- README.md
 ```
 
-## Features
+## Architecture
 
-### Frontend editor
+### Frontend flow
 
-- drag-and-drop pipeline builder using React Flow
-- reusable `BaseNode` abstraction
-- built-in node library
-- additional custom nodes:
-  - Math Node
-  - API Node
-  - Condition Node
-  - Database Node
-  - Logger Node
-- auto layout powered by Dagre
-- minimap, zoom controls, fit view, and grid background
-- responsive layout for desktop, tablet, and mobile
-- mobile node-adding flow with a bottom-sheet library
+1. `Sidebar` exposes node types from `nodeRegistry.js`
+2. `PipelineCanvas` renders the graph with React Flow
+3. Zustand in `store.js` owns graph state and connection updates
+4. `submit.js` validates the graph and posts it to the backend
+5. `PipelineResultModal` presents the analysis result
 
-### Text node enhancements
+### Backend flow
 
-- auto-expanding textarea
-- dynamic width/height growth based on content
-- variable detection using `{{variableName}}`
-- dynamic input handles generated from detected variables
+1. FastAPI receives `{ nodes, edges }` at `POST /pipelines/parse`
+2. Pydantic models validate the request shape
+3. `graph_utils.py` checks whether the graph is acyclic
+4. FastAPI returns `{ num_nodes, num_edges, is_dag }`
 
-### Backend integration
+### System diagram
 
-- frontend submits current nodes and edges to FastAPI
-- backend returns:
-  - `num_nodes`
-  - `num_edges`
-  - `is_dag`
-- DAG detection uses DFS cycle detection
-- CORS enabled for local frontend development
+```mermaid
+flowchart LR
+  A[Sidebar / Node Library] --> B[React Flow Canvas]
+  B --> C[Zustand Store]
+  C --> D[Submit Pipeline]
+  D --> E[FastAPI /pipelines/parse]
+  E --> F[DFS DAG Detection]
+  F --> G[Pipeline Result Modal]
+```
 
-## How It Works
+## Node Abstraction
 
-1. Add nodes from the sidebar or mobile bottom-sheet library.
-2. Connect nodes inside the React Flow canvas.
-3. Use `Auto Layout` to organize the graph.
-4. Click `Submit`.
-5. The frontend sends the pipeline graph to `POST /pipelines/parse`.
-6. The backend analyzes the graph and returns node count, edge count, and DAG status.
-7. The frontend shows the result in an alert.
+The shared node surface lives in `src/nodes/BaseNode.js`.
 
-## Running The Project
+It provides:
 
-### 1. Start the backend
+- consistent container styling
+- configurable title
+- optional icon support
+- configurable input handles
+- configurable output handles
+- a shared content area for node-specific controls
+- node metadata such as port counts and node id
 
-Open a terminal in `backend/`:
+Example:
+
+```jsx
+<BaseNode
+  title="Math Node"
+  icon="➗"
+  inputs={[{ id: 'a' }, { id: 'b' }]}
+  outputs={[{ id: 'result' }]}
+>
+  <p>Performs calculations</p>
+</BaseNode>
+```
+
+This keeps new nodes small and focused. Most node files only define their unique fields or description.
+
+## Node Metadata Registry
+
+`src/nodes/nodeRegistry.js` centralizes node definitions in one place.
+
+Each node entry contains:
+
+- `label`
+- `description`
+- `icon`
+- `accent`
+- `color`
+- `component`
+
+This registry is reused by:
+
+- the node library sidebar
+- React Flow `nodeTypes`
+- minimap colors
+
+That avoids the common problem of adding a node in one file and forgetting the other two places that also need updating.
+
+## Text Node Variable System
+
+`TextNode` is designed to feel dynamic and useful instead of static.
+
+Features:
+
+- auto-resizing textarea using `scrollHeight`
+- width growth based on content length
+- variable extraction using `src/utils/extractVariables.js`
+- unique handle generation for each valid `{{variableName}}`
+
+Example input:
+
+```text
+Generate a summary of {{article}} using {{model}}
+```
+
+Generated input handles:
+
+- `article`
+- `model`
+
+This mirrors how template-driven pipeline tools expose data dependencies visually.
+
+## Pipeline Validation
+
+Before the frontend sends a request to the backend, it validates the current graph using `src/utils/validatePipeline.js`.
+
+Checks include:
+
+- at least one node exists
+- at least one edge exists
+- disconnected nodes produce a warning
+
+This prevents avoidable backend calls and gives the user more helpful feedback earlier.
+
+## DAG Detection
+
+The backend determines whether the submitted pipeline is a DAG using DFS cycle detection in `backend/graph_utils.py`.
+
+High-level algorithm:
+
+1. build an adjacency list from the directed edges
+2. visit each node with DFS
+3. track the current recursion stack
+4. if DFS reaches a node already on the active stack, a cycle exists
+5. if no cycle is found, the graph is a DAG
+
+Pseudo flow:
+
+```text
+dfs(node):
+  mark node visited
+  add node to recursion stack
+
+  for each neighbor:
+    if neighbor not visited:
+      dfs(neighbor)
+    if neighbor already in recursion stack:
+      cycle found
+
+  remove node from recursion stack
+```
+
+This makes the backend analysis deterministic, fast, and easy to reason about.
+
+## UI and UX Highlights
+
+The editor is designed to feel closer to a product UI than a default assessment demo.
+
+Included UX features:
+
+- drag-and-drop node sidebar
+- tap-to-add flow for touch devices
+- minimap for large pipelines
+- zoom controls and fit view
+- grid background
+- auto layout with Dagre
+- polished result modal
+- responsive desktop, tablet, and mobile layouts
+- touch-friendly controls and larger hit areas on smaller devices
+
+## Engineering Decisions
+
+### Why use `BaseNode`?
+
+Without a shared base component, every node duplicates the same container layout, handle rendering, spacing, metadata, and styling. That makes the code noisy and increases the cost of every UI change.
+
+Using `BaseNode` means:
+
+- a new node can be created in a few lines
+- styling remains consistent across the editor
+- handle behavior is standardized
+- node files stay focused on domain-specific behavior
+
+### Why add a node registry?
+
+Node metadata naturally belongs in a single source of truth. A registry makes the editor easier to extend and keeps the sidebar, minimap, and canvas configuration in sync.
+
+### Why validate on the frontend and backend?
+
+Frontend validation improves usability by catching empty or obviously incomplete graphs immediately. Backend validation and analysis remain the source of truth for the final graph result.
+
+### Why replace `alert()` with a modal?
+
+The modal provides richer feedback, better formatting, and a more professional interaction model than a blocking browser alert.
+
+## Running the Project
+
+### Backend
+
+From `backend/`:
 
 ```powershell
 cd D:\VectorShift\backend
 python -m uvicorn main:app --reload
 ```
 
-Backend runs at:
+Backend URL:
 
 ```text
 http://127.0.0.1:8000
 ```
 
-### 2. Start the frontend
+### Frontend
 
-Open another terminal in `frontend/`:
+From `frontend/`:
 
 ```powershell
 cd D:\VectorShift\frontend
@@ -126,17 +285,17 @@ npm install
 npm start
 ```
 
-Frontend runs at:
+Frontend URL:
 
 ```text
 http://localhost:3000
 ```
 
-## API
+## API Contract
 
 ### `POST /pipelines/parse`
 
-Request body:
+Request:
 
 ```json
 {
@@ -162,28 +321,18 @@ Response:
 }
 ```
 
-## Node Abstraction
+## Assessment Coverage
 
-The shared node UI lives in `src/nodes/BaseNode.js`.
+This repository now demonstrates:
 
-It provides:
-
-- shared container layout
-- shared header and metadata
-- configurable input handles
-- configurable output handles
-- reusable content area for node-specific controls
-
-This makes new nodes quick to add and keeps the styling consistent.
-
-## Responsive Design Notes
-
-The editor is designed to work across screen sizes:
-
-- Desktop: sidebar + submit panel + full canvas
-- Tablet: stacked layout with larger action controls
-- Mobile: floating `Add Nodes` button and bottom-sheet library
-- Touch devices: larger hit targets for handles, buttons, and controls
+- reusable node abstraction
+- additional node types built on the abstraction
+- modern React Flow editor UX
+- dynamic `TextNode` behavior
+- graph submission from frontend to backend
+- backend DAG analysis
+- modular utility-driven architecture
+- documentation that explains the reasoning behind the implementation
 
 ## Useful Commands
 
@@ -195,15 +344,3 @@ npm run build
 # backend
 python -m uvicorn main:app --reload
 ```
-
-## Current Status
-
-This codebase currently satisfies the main assessment goals:
-
-- node abstraction
-- additional node creation
-- unified styling
-- dynamic text node behavior
-- frontend to backend submission
-- backend DAG analysis
-- responsive and touch-friendly editor UX

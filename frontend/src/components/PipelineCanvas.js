@@ -2,43 +2,15 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import ReactFlow, { Background, Controls, MiniMap } from 'reactflow';
 import { useShallow } from 'zustand/react/shallow';
 
+import { nodeRegistry } from '../nodes/nodeRegistry';
 import { useStore } from '../store';
-import { APINode } from '../nodes/APINode';
-import { ConditionNode } from '../nodes/ConditionNode';
-import { DatabaseNode } from '../nodes/DatabaseNode';
-import { InputNode } from '../nodes/InputNode';
-import { LLMNode } from '../nodes/LLMNode';
-import { LoggerNode } from '../nodes/LoggerNode';
-import { MathNode } from '../nodes/MathNode';
-import { OutputNode } from '../nodes/OutputNode';
-import { TextNode } from '../nodes/TextNode';
 import { getLayoutedElements } from '../utils/layout';
 
 import 'reactflow/dist/style.css';
 
-const nodeTypes = {
-  customInput: InputNode,
-  customOutput: OutputNode,
-  text: TextNode,
-  llm: LLMNode,
-  math: MathNode,
-  database: DatabaseNode,
-  api: APINode,
-  condition: ConditionNode,
-  logger: LoggerNode,
-};
-
-const typeColors = {
-  customInput: '#3b82f6',
-  customOutput: '#f97316',
-  text: '#10b981',
-  llm: '#8b5cf6',
-  math: '#ec4899',
-  database: '#f59e0b',
-  api: '#06b6d4',
-  condition: '#ef4444',
-  logger: '#64748b',
-};
+const nodeTypes = Object.fromEntries(
+  Object.entries(nodeRegistry).map(([type, metadata]) => [type, metadata.component]),
+);
 
 const selector = (state) => ({
   nodes: state.nodes,
@@ -70,7 +42,7 @@ const actionButtonStyle = {
   cursor: 'pointer',
 };
 
-const getNodeColor = (node) => typeColors[node.type] || '#64748b';
+const getNodeColor = (node) => nodeRegistry[node.type]?.color || '#64748b';
 
 export const PipelineCanvas = () => {
   const reactFlowWrapper = useRef(null);

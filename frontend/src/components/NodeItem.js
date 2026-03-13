@@ -1,4 +1,4 @@
-export const NodeItem = ({ type, label, shortLabel, accent, description, onSelect }) => {
+export const NodeItem = ({ type, label, shortLabel, accent, description, icon, onSelect }) => {
   const onDragStart = (event) => {
     event.dataTransfer.setData('application/reactflow', JSON.stringify({ nodeType: type }));
     event.dataTransfer.effectAllowed = 'move';
@@ -13,7 +13,7 @@ export const NodeItem = ({ type, label, shortLabel, accent, description, onSelec
     >
       <div className="node-item-header">
         <span className="node-item-badge" style={{ background: accent }}>
-          {shortLabel}
+          {icon || shortLabel}
         </span>
         <span className="node-item-label">{label}</span>
       </div>
