@@ -1,59 +1,58 @@
 .app-shell {
   min-height: 100vh;
   min-height: 100dvh;
-  padding: clamp(16px, 2.4vw, 28px);
+  padding: clamp(16px, 2.4vw, 32px);
   box-sizing: border-box;
   background:
-    radial-gradient(circle at top left, var(--accent-soft), transparent 34%),
-    radial-gradient(circle at top right, var(--accent-2-soft), transparent 30%),
-    linear-gradient(180deg, #f7f9fc 0%, #eef2f7 52%, #f9fafb 100%);
+    radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.08), transparent 40%),
+    radial-gradient(circle at 90% 0%, rgba(20, 184, 166, 0.08), transparent 35%),
+    var(--bg-primary);
 }
 
 .app-frame {
-  max-width: 1500px;
+  max-width: 1480px;
   margin: 0 auto;
   display: grid;
-  gap: 22px;
+  gap: 24px;
 }
 
 .hero-card {
   position: relative;
   overflow: hidden;
-  padding: 24px 28px;
+  padding: 26px 30px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-soft);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.92));
-  box-shadow: var(--shadow-strong);
-  backdrop-filter: blur(16px);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-soft);
   display: flex;
   justify-content: space-between;
-  gap: 18px;
+  gap: 24px;
   flex-wrap: wrap;
   align-items: flex-end;
-  animation: hero-rise 620ms ease-out both;
+  animation: hero-rise 520ms ease-out both;
 }
 
 .hero-card::before,
 .hero-card::after {
   content: '';
   position: absolute;
-  inset: -40% 20% auto auto;
-  width: 320px;
-  height: 320px;
+  inset: -35% 20% auto auto;
+  width: 260px;
+  height: 260px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(37, 99, 235, 0.2), transparent 70%);
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.18), transparent 70%);
   filter: blur(12px);
-  opacity: 0.7;
+  opacity: 0.6;
   animation: hero-glow 10s ease-in-out infinite;
   pointer-events: none;
   z-index: 0;
 }
 
 .hero-card::after {
-  inset: auto auto -45% -10%;
-  width: 360px;
-  height: 360px;
-  background: radial-gradient(circle, rgba(14, 165, 164, 0.18), transparent 70%);
+  inset: auto auto -40% -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.18), transparent 70%);
   animation-delay: -4s;
 }
 
@@ -65,25 +64,25 @@
 .hero-eyebrow,
 .panel-eyebrow {
   font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
 }
 
 .hero-title {
   margin: 8px 0 0;
-  font-size: clamp(2rem, 4vw, 3rem);
-  line-height: 1.05;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  line-height: 1.1;
   color: var(--text-primary);
 }
 
 .hero-copy {
-  max-width: 780px;
+  max-width: 760px;
   margin: 12px 0 0;
-  font-size: 17px;
-  line-height: 1.65;
-  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-muted);
 }
 
 .hero-chips {
@@ -93,25 +92,32 @@
 }
 
 .hero-chip {
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(59, 130, 246, 0.3);
-  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(99, 102, 241, 0.22);
+  background: var(--accent-soft);
   color: var(--accent-strong);
-  font-weight: 700;
-  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.12);
+  font-weight: 600;
+  box-shadow: none;
 }
 
 .editor-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 22px;
+  gap: 24px;
+  align-items: start;
+}
+
+.workspace-grid {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  gap: 24px;
   align-items: start;
 }
 
 .builder-stack {
   display: grid;
-  gap: 22px;
+  gap: 24px;
 }
 
 .sidebar-card,
@@ -119,9 +125,8 @@
 .canvas-card {
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-soft);
-  background: rgba(255, 255, 255, 0.94);
+  background: var(--bg-surface);
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(16px);
 }
 
 .canvas-card {
@@ -154,8 +159,8 @@
 .submit-title,
 .canvas-title {
   margin: 8px 0 0;
-  font-size: 24px;
-  line-height: 1.15;
+  font-size: 22px;
+  line-height: 1.25;
   color: var(--text-primary);
 }
 
@@ -224,6 +229,12 @@
 }
 
 @media (max-width: 1024px) {
+  .workspace-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1024px) {
   .canvas-toolbar {
     flex-direction: column;
     align-items: flex-start;
@@ -241,21 +252,21 @@
 
 .node-item {
   cursor: grab;
-  padding: 14px 16px;
-  border-radius: var(--radius-md);
+  padding: 16px;
+  border-radius: 12px;
   border: 1px solid var(--border-soft);
-  background: linear-gradient(180deg, #ffffff 0%, #f3f6fb 100%);
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
   display: grid;
-  gap: 6px;
-  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  gap: 8px;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
   -webkit-tap-highlight-color: transparent;
 }
 
 .node-item:hover {
   transform: translateY(-2px);
-  border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.12);
 }
 
 .node-item-header {
@@ -265,14 +276,14 @@
 }
 
 .node-item-badge {
-  width: 40px;
-  height: 40px;
-  border-radius: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
   display: grid;
   place-items: center;
   color: #ffffff;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.04em;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
 }
@@ -298,13 +309,13 @@
 .submit-button {
   width: 100%;
   min-height: 44px;
-  padding: 10px 14px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #2563eb 0%, #0ea5a4 100%);
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--accent);
   color: #ffffff;
   font-size: 14px;
-  font-weight: 700;
-  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
+  font-weight: 600;
+  box-shadow: 0 10px 18px rgba(99, 102, 241, 0.25);
 }
 
 .canvas-card {
@@ -328,17 +339,25 @@
 }
 
 .canvas-action {
-  padding: 11px 16px;
-  border-radius: 999px;
-  border: 1px solid rgba(59, 130, 246, 0.35);
-  background: linear-gradient(180deg, #eef5ff 0%, #e8f5f4 100%);
-  color: #1d4ed8;
-  font-weight: 800;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: #ffffff;
+  color: var(--text-secondary);
+  font-weight: 600;
 }
 
 .submit-button:hover,
 .canvas-action:hover {
   transform: translateY(-1px);
+}
+
+.submit-button:hover {
+  background: var(--accent-strong);
+}
+
+.canvas-action:hover {
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.08);
 }
 
 .submit-button:active,
@@ -347,16 +366,21 @@
   transform: translateY(0);
 }
 
-.canvas-shell {
-  position: relative;
-  height: 74vh;
-  min-height: 580px;
-  overflow: hidden;
+.canvas-container {
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-soft);
-  background:
-    radial-gradient(circle at top right, rgba(56, 189, 248, 0.16), transparent 28%),
-    linear-gradient(180deg, #f8fbff 0%, #eef4f8 100%);
+  background: #f9fafb;
+  padding: 12px;
+}
+
+.canvas-shell {
+  position: relative;
+  height: 72vh;
+  min-height: 560px;
+  overflow: hidden;
+  border-radius: calc(var(--radius-lg) - 6px);
+  border: 1px solid var(--border-soft);
+  background: #f9fafb;
   animation: canvas-reveal 600ms ease-out both;
 }
 
@@ -408,11 +432,11 @@
   min-height: 44px;
   padding: 10px 14px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #2563eb 0%, #0ea5a4 100%);
+  background: var(--accent);
   color: #ffffff;
   font-size: 14px;
-  font-weight: 700;
-  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
+  font-weight: 600;
+  box-shadow: 0 10px 18px rgba(99, 102, 241, 0.25);
 }
 
 .mobile-library-backdrop {
@@ -473,7 +497,7 @@
   border-radius: 999px;
   background: var(--bg-surface-muted);
   color: var(--text-secondary);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .mobile-library-sheet .sidebar-card {
@@ -589,7 +613,7 @@
     padding-bottom: 92px;
   }
 
-  .sidebar-card--horizontal {
+  .workspace-grid .sidebar-card {
     display: none;
   }
 

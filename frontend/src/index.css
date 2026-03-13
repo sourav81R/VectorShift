@@ -1,27 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   color-scheme: light;
-  --font-body: 'Manrope', 'Segoe UI', sans-serif;
-  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
-  --bg-page: #f6f7fb;
-  --bg-surface: #ffffff;
-  --bg-surface-muted: #f1f5f9;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --bg-primary: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-muted: #f1f5f9;
+  --border-light: #e5e7eb;
   --text-primary: #0f172a;
-  --text-secondary: #475569;
+  --text-secondary: #334155;
   --text-muted: #64748b;
-  --border-soft: rgba(148, 163, 184, 0.35);
-  --border-strong: rgba(148, 163, 184, 0.6);
-  --accent: #2563eb;
-  --accent-strong: #1d4ed8;
-  --accent-soft: rgba(37, 99, 235, 0.14);
-  --accent-2: #0ea5a4;
-  --accent-2-soft: rgba(14, 165, 164, 0.14);
-  --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.08);
-  --shadow-strong: 0 24px 60px rgba(15, 23, 42, 0.12);
-  --radius-lg: 26px;
-  --radius-md: 18px;
+  --accent: #6366f1;
+  --accent-strong: #4f46e5;
+  --accent-soft: rgba(99, 102, 241, 0.12);
+  --accent-2: #14b8a6;
+  --accent-2-soft: rgba(20, 184, 166, 0.12);
+  --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-strong: 0 16px 40px rgba(15, 23, 42, 0.12);
+  --radius-lg: 18px;
+  --radius-md: 14px;
   --radius-pill: 999px;
+  --bg-page: var(--bg-primary);
+  --bg-surface: var(--bg-card);
+  --bg-surface-muted: var(--bg-muted);
+  --border-soft: var(--border-light);
+  --border-strong: #cbd5f5;
 }
 
 body {
@@ -29,7 +33,7 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: var(--bg-page);
+  background: var(--bg-primary);
   color: var(--text-primary);
 }
 

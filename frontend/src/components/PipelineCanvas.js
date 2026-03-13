@@ -5,7 +5,6 @@ import { useShallow } from 'zustand/react/shallow';
 import { nodeRegistry } from '../nodes/nodeRegistry';
 import { useStore } from '../store';
 import { getLayoutedElements } from '../utils/layout';
-import { Sidebar } from './Sidebar';
 
 import 'reactflow/dist/style.css';
 
@@ -28,7 +27,7 @@ const defaultEdgeOptions = {
   type: 'smoothstep',
   animated: true,
   style: {
-    stroke: '#2563eb',
+    stroke: '#6366f1',
     strokeWidth: 2.4,
   },
 };
@@ -51,7 +50,7 @@ export const PipelineCanvas = () => {
 
   const minimapStyle = useMemo(() => ({
     background: '#ffffff',
-    border: '1px solid #dbe3f0',
+    border: '1px solid #e5e7eb',
     borderRadius: 16,
   }), []);
 
@@ -127,43 +126,44 @@ export const PipelineCanvas = () => {
           <button type="button" onClick={fitCanvas} className="canvas-action">Fit View</button>
         </div>
       </div>
-      <Sidebar variant="horizontal" />
-      <div ref={reactFlowWrapper} className="canvas-shell">
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          defaultEdgeOptions={defaultEdgeOptions}
-          connectionLineStyle={{ stroke: '#0ea5a4', strokeWidth: 3 }}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          onInit={setReactFlowInstance}
-          snapGrid={[20, 20]}
-          fitView
-          proOptions={{ hideAttribution: true }}
-        >
-          <Background gap={20} size={1} color="#d8e2f0" />
-          <Controls position="top-right" showInteractive={false} />
-          <MiniMap
-            position="bottom-right"
-            pannable
-            zoomable
-            nodeBorderRadius={14}
-            nodeStrokeWidth={(node) => (node.selected ? 3 : 2)}
-            nodeColor={getNodeColor}
-            nodeStrokeColor={(node) => getNodeColor(node)}
-            maskColor="rgba(15, 23, 42, 0.05)"
-            style={minimapStyle}
-          />
-        </ReactFlow>
-        {nodes.length === 0 ? (
-          <div className="canvas-empty">
-            Drop a node from the library to begin. Once your graph grows, use Auto Layout and Fit View to keep everything readable.
-          </div>
-        ) : null}
+      <div className="canvas-container">
+        <div ref={reactFlowWrapper} className="canvas-shell">
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            nodeTypes={nodeTypes}
+            defaultEdgeOptions={defaultEdgeOptions}
+          connectionLineStyle={{ stroke: '#6366f1', strokeWidth: 3 }}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            onInit={setReactFlowInstance}
+            snapGrid={[20, 20]}
+            fitView
+            proOptions={{ hideAttribution: true }}
+          >
+            <Background gap={20} size={1} color="#e2e8f0" />
+            <Controls position="top-right" showInteractive={false} />
+            <MiniMap
+              position="bottom-right"
+              pannable
+              zoomable
+              nodeBorderRadius={14}
+              nodeStrokeWidth={(node) => (node.selected ? 3 : 2)}
+              nodeColor={getNodeColor}
+              nodeStrokeColor={(node) => getNodeColor(node)}
+              maskColor="rgba(15, 23, 42, 0.05)"
+              style={minimapStyle}
+            />
+          </ReactFlow>
+          {nodes.length === 0 ? (
+            <div className="canvas-empty">
+              Drop a node from the library to begin. Once your graph grows, use Auto Layout and Fit View to keep everything readable.
+            </div>
+          ) : null}
+        </div>
       </div>
       <p className="canvas-copy" style={{ margin: 0 }}>
         Drag nodes from the sidebar, connect them in the canvas, and use Auto Layout to quickly organize larger pipelines.
