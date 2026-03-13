@@ -219,6 +219,12 @@
   transform: translateY(-1px);
 }
 
+.submit-button:active,
+.canvas-action:active,
+.node-item:active {
+  transform: translateY(0);
+}
+
 .canvas-shell {
   position: relative;
   height: 74vh;
@@ -289,6 +295,33 @@
   }
 }
 
+@media (pointer: coarse) {
+  .submit-button,
+  .canvas-action {
+    min-height: 48px;
+    padding: 14px 18px;
+  }
+
+  .node-item {
+    min-height: 84px;
+    padding: 16px;
+  }
+
+  .react-flow__controls-button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .react-flow__controls {
+    border-radius: 20px;
+  }
+
+  .react-flow__minimap {
+    transform: scale(0.92);
+    transform-origin: bottom right;
+  }
+}
+
 @media (max-width: 640px) {
   .app-shell {
     padding: 16px;
@@ -352,5 +385,10 @@
   .react-flow__minimap {
     transform: scale(0.82);
     transform-origin: bottom right;
+  }
+
+  .submit-button,
+  .canvas-action {
+    min-height: 50px;
   }
 }

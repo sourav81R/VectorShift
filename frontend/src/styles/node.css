@@ -102,6 +102,13 @@
   height: 12px;
   background: #2563eb;
   border: 2px solid #ffffff;
+  transition: transform 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
+}
+
+.node-handle:hover,
+.node-handle:focus-visible {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18);
 }
 
 .node-handle-label {
@@ -179,6 +186,27 @@
   font-weight: 600;
 }
 
+@media (pointer: coarse) {
+  .node-handle {
+    width: 18px;
+    height: 18px;
+    border-width: 3px;
+  }
+
+  .node-control {
+    min-height: 44px;
+    padding: 11px 12px;
+  }
+
+  .node-textarea {
+    min-height: 112px;
+  }
+
+  .node-chip {
+    padding: 6px 10px;
+  }
+}
+
 @media (max-width: 640px) {
   .node-container {
     width: min(250px, calc(100vw - 84px));
@@ -203,5 +231,13 @@
 
   .node-handle-label {
     display: none;
+  }
+
+  .node-meta-id {
+    display: none;
+  }
+
+  .node-meta {
+    font-size: 10px;
   }
 }
