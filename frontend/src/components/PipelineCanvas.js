@@ -28,19 +28,9 @@ const defaultEdgeOptions = {
   type: 'smoothstep',
   animated: true,
   style: {
-    stroke: '#6366f1',
+    stroke: '#2563eb',
     strokeWidth: 2.4,
   },
-};
-
-const actionButtonStyle = {
-  padding: '10px 16px',
-  borderRadius: 999,
-  border: '1px solid #c7d2fe',
-  background: '#eef2ff',
-  color: '#4338ca',
-  fontWeight: 700,
-  cursor: 'pointer',
 };
 
 const getNodeColor = (node) => nodeRegistry[node.type]?.color || '#64748b';
@@ -133,8 +123,8 @@ export const PipelineCanvas = () => {
           <p className="canvas-copy">Lay out your graph, inspect large flows with the minimap, and keep the structure readable as it grows.</p>
         </div>
         <div className="canvas-actions">
-          <button type="button" onClick={() => autoLayout('TB')} style={actionButtonStyle} className="canvas-action">Auto Layout</button>
-          <button type="button" onClick={fitCanvas} style={actionButtonStyle} className="canvas-action">Fit View</button>
+          <button type="button" onClick={() => autoLayout('TB')} className="canvas-action">Auto Layout</button>
+          <button type="button" onClick={fitCanvas} className="canvas-action">Fit View</button>
         </div>
       </div>
       <Sidebar variant="horizontal" />
@@ -144,7 +134,7 @@ export const PipelineCanvas = () => {
           edges={edges}
           nodeTypes={nodeTypes}
           defaultEdgeOptions={defaultEdgeOptions}
-          connectionLineStyle={{ stroke: '#818cf8', strokeWidth: 3 }}
+          connectionLineStyle={{ stroke: '#0ea5a4', strokeWidth: 3 }}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
