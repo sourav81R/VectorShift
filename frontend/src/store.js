@@ -12,6 +12,9 @@ export const useStore = create((set, get) => ({
     nodeIDs: {},
     nodes: [],
     edges: [],
+    setNodes: (nodes) => {
+        set({ nodes });
+    },
     getNodeID: (type) => {
         const newIDs = {...get().nodeIDs};
         if (newIDs[type] === undefined) {
@@ -38,7 +41,13 @@ export const useStore = create((set, get) => ({
     },
     onConnect: (connection) => {
       set({
-        edges: addEdge({...connection, type: 'smoothstep', animated: true, markerEnd: {type: MarkerType.Arrow, height: '20px', width: '20px'}}, get().edges),
+        edges: addEdge({
+          ...connection,
+          type: 'smoothstep',
+          animated: true,
+          style: { stroke: '#6366f1', strokeWidth: 2.4 },
+          markerEnd: {type: MarkerType.Arrow, height: '20px', width: '20px'}
+        }, get().edges),
       });
     },
     updateNodeField: (nodeId, fieldName, fieldValue) => {
