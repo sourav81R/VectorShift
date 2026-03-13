@@ -17,6 +17,8 @@
 }
 
 .hero-card {
+  position: relative;
+  overflow: hidden;
   padding: 24px 28px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-soft);
@@ -28,6 +30,36 @@
   gap: 18px;
   flex-wrap: wrap;
   align-items: flex-end;
+  animation: hero-rise 620ms ease-out both;
+}
+
+.hero-card::before,
+.hero-card::after {
+  content: '';
+  position: absolute;
+  inset: -40% 20% auto auto;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.2), transparent 70%);
+  filter: blur(12px);
+  opacity: 0.7;
+  animation: hero-glow 10s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-card::after {
+  inset: auto auto -45% -10%;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(14, 165, 164, 0.18), transparent 70%);
+  animation-delay: -4s;
+}
+
+.hero-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-eyebrow,
@@ -92,6 +124,27 @@
   backdrop-filter: blur(16px);
 }
 
+.canvas-card {
+  animation: card-rise 520ms ease-out both;
+}
+
+.sidebar-card,
+.submit-card {
+  animation: card-rise 520ms ease-out both;
+}
+
+.sidebar-card {
+  animation-delay: 80ms;
+}
+
+.canvas-card {
+  animation-delay: 140ms;
+}
+
+.submit-card {
+  animation-delay: 200ms;
+}
+
 .sidebar-card,
 .submit-card {
   padding: 22px;
@@ -150,7 +203,19 @@
 .sidebar-grid--horizontal .node-item {
   min-width: 220px;
   scroll-snap-align: start;
+  opacity: 0;
+  animation: card-fade-up 420ms ease-out both;
 }
+
+.sidebar-grid--horizontal .node-item:nth-child(1) { animation-delay: 40ms; }
+.sidebar-grid--horizontal .node-item:nth-child(2) { animation-delay: 80ms; }
+.sidebar-grid--horizontal .node-item:nth-child(3) { animation-delay: 120ms; }
+.sidebar-grid--horizontal .node-item:nth-child(4) { animation-delay: 160ms; }
+.sidebar-grid--horizontal .node-item:nth-child(5) { animation-delay: 200ms; }
+.sidebar-grid--horizontal .node-item:nth-child(6) { animation-delay: 240ms; }
+.sidebar-grid--horizontal .node-item:nth-child(7) { animation-delay: 280ms; }
+.sidebar-grid--horizontal .node-item:nth-child(8) { animation-delay: 320ms; }
+.sidebar-grid--horizontal .node-item:nth-child(9) { animation-delay: 360ms; }
 
 @media (max-width: 1200px) {
   .sidebar-grid--horizontal {
@@ -292,6 +357,7 @@
   background:
     radial-gradient(circle at top right, rgba(56, 189, 248, 0.16), transparent 28%),
     linear-gradient(180deg, #f8fbff 0%, #eef4f8 100%);
+  animation: canvas-reveal 600ms ease-out both;
 }
 
 .react-flow__controls {
@@ -674,5 +740,80 @@
   .result-modal-close {
     min-height: 40px;
     padding: 9px 12px;
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes canvas-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-glow {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(-12px, 10px, 0) scale(1.06);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-card,
+  .sidebar-card,
+  .submit-card,
+  .canvas-card,
+  .canvas-shell,
+  .sidebar-grid--horizontal .node-item {
+    animation: none;
+  }
+
+  .hero-card::before,
+  .hero-card::after {
+    animation: none;
   }
 }
