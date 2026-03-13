@@ -73,18 +73,29 @@
   margin-left: auto;
   align-self: flex-start;
   border: 1px solid var(--border-soft);
-  background: var(--surface-elevated);
+  background: var(--bg-surface);
   border-radius: 999px;
-  padding: 4px;
+  padding: 6px 10px;
   cursor: pointer;
-  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
-  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  box-shadow: var(--shadow-soft);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .hero-toggle:hover {
   transform: translateY(-1px);
-  border-color: rgba(99, 102, 241, 0.35);
-  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.12);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-float);
+}
+
+.hero-toggle-text {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
 }
 
 .hero-toggle-track {
@@ -92,10 +103,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
+  width: 44px;
   height: 24px;
   border-radius: 999px;
   background: var(--bg-surface-muted);
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.12);
 }
 
 .hero-toggle-icon {
@@ -103,6 +115,7 @@
   width: 12px;
   height: 12px;
   color: var(--text-muted);
+  opacity: 0.9;
 }
 
 .hero-toggle-icon--sun {
@@ -121,18 +134,35 @@
   width: 18px;
   height: 18px;
   border-radius: 999px;
-  background: var(--bg-surface);
-  box-shadow: 0 4px 8px rgba(15, 23, 42, 0.16);
-  transition: transform 180ms ease, background 180ms ease;
+  background: var(--bg-card);
+  box-shadow: 0 6px 12px rgba(15, 23, 42, 0.25);
+  transition: transform 200ms ease, background 180ms ease, box-shadow 180ms ease;
 }
 
 .hero-toggle.is-dark .hero-toggle-track {
-  background: var(--bg-muted);
+  background: #111827;
 }
 
 .hero-toggle.is-dark .hero-toggle-thumb {
-  transform: translateX(24px);
-  background: var(--bg-surface);
+  transform: translateX(20px);
+  background: #0b1120;
+}
+
+.hero-toggle.is-dark .hero-toggle-icon--sun {
+  color: #64748b;
+}
+
+.hero-toggle.is-dark .hero-toggle-icon--moon {
+  color: #fbbf24;
+}
+
+.hero-toggle.is-dark .hero-toggle-text {
+  color: var(--text-muted);
+}
+
+.hero-toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
 .hero-toggle.is-dark .hero-toggle-icon--sun {
@@ -400,6 +430,7 @@
 .node-item:hover {
   transform: translateY(-2px);
   border-color: rgba(99, 102, 241, 0.35);
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.06), transparent);
   box-shadow: var(--shadow-float);
 }
 
@@ -420,11 +451,22 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .node-item-label {
   font-weight: 800;
   color: var(--text-primary);
+  transition: color 160ms ease;
+}
+
+.node-item:hover .node-item-badge {
+  transform: scale(1.06);
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.16);
+}
+
+.node-item:hover .node-item-label {
+  color: var(--accent-strong);
 }
 
 .node-item-description {

@@ -67,6 +67,7 @@ function App() {
             aria-pressed={theme === 'dark'}
             onClick={toggleTheme}
           >
+            <span className="hero-toggle-text">{theme === 'dark' ? 'Dark' : 'Light'}</span>
             <span className="hero-toggle-track">
               <svg className="hero-toggle-icon hero-toggle-icon--sun" viewBox="0 0 24 24" aria-hidden="true">
                 <path
