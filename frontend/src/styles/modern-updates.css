@@ -1,0 +1,67 @@
+/* Class to prevent body scroll when mobile library is open */
+body.mobile-library-is-open {
+  overflow: hidden;
+}
+
+/* --- Hero Card Enhancements --- */
+.hero-card {
+  background: linear-gradient(145deg, #2d3748, #1a202c);
+  border: 1px solid #4a5568;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.hero-eyebrow {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.hero-title {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.hero-copy {
+  line-height: 1.6;
+}
+
+.hero-chip {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  transition: background-color 0.2s ease;
+}
+
+.hero-chip:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Mobile UI Enhancements --- */
+.mobile-library-trigger {
+  background: linear-gradient(135deg, #4c51bf, #667eea);
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mobile-library-trigger:hover,
+.mobile-library-trigger:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.mobile-library-sheet {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
