@@ -28,9 +28,25 @@ export const PipelineToast = ({ toast, onClose }) => {
           </button>
         </div>
         <div className="pipeline-toast-body">
-          {lines.map((line, index) => (
-            <p key={`${line}-${index}`} className="pipeline-toast-line">{line}</p>
-          ))}
+          {lines.map((line, index) => {
+            const colonIndex = line.indexOf(':');
+            const hasLabel = colonIndex > -1;
+            const label = hasLabel ? line.slice(0, colonIndex + 1) : '';
+            const value = hasLabel ? line.slice(colonIndex + 1).trim() : line;
+
+            return (
+              <p key={`${line}-${index}`} className="pipeline-toast-line">
+                {hasLabel ? (
+                  <>
+                    <span className="pipeline-toast-label">{label}</span>
+                    <span className="pipeline-toast-value">{value}</span>
+                  </>
+                ) : (
+                  line
+                )}
+              </p>
+            );
+          })}
           {warnings.length > 0 ? (
             <div className="pipeline-toast-warnings">
               <div className="pipeline-toast-warning-title">Warnings</div>

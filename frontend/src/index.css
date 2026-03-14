@@ -30,6 +30,12 @@
   --border-strong: #cbd5f5;
   --surface-elevated: rgba(255, 255, 255, 0.96);
   --node-icon-bg: rgba(255, 255, 255, 0.85);
+  --toast-bg: rgba(15, 23, 42, 0.92);
+  --toast-border: rgba(99, 102, 241, 0.4);
+  --toast-text: #eef2ff;
+  --toast-muted: rgba(226, 232, 240, 0.8);
+  --toast-shadow: 0 28px 70px rgba(15, 23, 42, 0.45);
+  --toast-accent: #94a3ff;
 }
 
 :root[data-theme='dark'] {
@@ -57,6 +63,12 @@
   --border-strong: rgba(148, 163, 184, 0.4);
   --surface-elevated: rgba(15, 23, 42, 0.92);
   --node-icon-bg: rgba(15, 23, 42, 0.55);
+  --toast-bg: rgba(15, 23, 42, 0.94);
+  --toast-border: rgba(129, 140, 248, 0.5);
+  --toast-text: #eef2ff;
+  --toast-muted: rgba(226, 232, 240, 0.82);
+  --toast-shadow: 0 28px 70px rgba(0, 0, 0, 0.55);
+  --toast-accent: #a5b4fc;
 }
 
 body {
