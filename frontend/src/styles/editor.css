@@ -808,6 +808,98 @@
   line-height: 1.5;
 }
 
+.toast-stack {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 120;
+  display: grid;
+  gap: 12px;
+  max-width: min(92vw, 420px);
+  pointer-events: none;
+}
+
+.pipeline-toast {
+  pointer-events: auto;
+  padding: 18px 18px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-elevated);
+  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.22);
+  animation: toast-in 220ms ease-out both;
+}
+
+.pipeline-toast-success {
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.pipeline-toast-warning {
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.pipeline-toast-danger {
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.pipeline-toast-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pipeline-toast-title {
+  margin: 6px 0 0;
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+.pipeline-toast-close {
+  min-height: 36px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pipeline-toast-body {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.pipeline-toast-line {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.pipeline-toast-warnings {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(251, 191, 36, 0.32);
+  background: rgba(251, 191, 36, 0.12);
+}
+
+.pipeline-toast-warning-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #b45309;
+}
+
+.pipeline-toast-warning-line {
+  margin: 0;
+  color: #92400e;
+  line-height: 1.5;
+}
+
 @media (max-width: 1100px) {
   .sidebar-grid:not(.sidebar-grid--horizontal) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -971,6 +1063,12 @@
     min-height: 40px;
     padding: 9px 12px;
   }
+
+  .toast-stack {
+    top: 16px;
+    left: 16px;
+    right: 16px;
+  }
 }
 
 @keyframes hero-rise {
@@ -1032,13 +1130,25 @@
   }
 }
 
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-card,
   .sidebar-card,
   .submit-card,
   .canvas-card,
   .canvas-shell,
-  .sidebar-grid--horizontal .node-item {
+  .sidebar-grid--horizontal .node-item,
+  .pipeline-toast {
     animation: none;
   }
 

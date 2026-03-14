@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useStore } from './store';
 import { validatePipeline } from './utils/validatePipeline';
+import { PipelineToast } from './components/PipelineToast';
 
 const selector = (state) => ({
   nodes: state.nodes,
@@ -11,22 +12,46 @@ const selector = (state) => ({
 export const SubmitButton = () => {
   const { nodes, edges } = useStore(useShallow(selector));
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toast, setToast] = useState(null);
+  const toastTimeoutRef = useRef(null);
 
   const validation = useMemo(() => validatePipeline(nodes, edges), [edges, nodes]);
-  const showAlert = (title, lines, warnings = []) => {
-    const message = [
-      title,
-      '',
-      ...lines,
-      ...(warnings.length ? ['', 'Warnings:', ...warnings] : []),
-    ].join('\n');
-
-    window.alert(message);
+  const dismissToast = () => {
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+      toastTimeoutRef.current = null;
+    }
+    setToast(null);
   };
+
+  const showToast = (payload, duration = 5500) => {
+    dismissToast();
+    setToast(payload);
+    if (duration > 0) {
+      toastTimeoutRef.current = setTimeout(() => {
+        setToast(null);
+        toastTimeoutRef.current = null;
+      }, duration);
+    }
+  };
+
+  useEffect(() => () => {
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+    }
+  }, []);
 
   const submitPipeline = async () => {
     if (!validation.isValid) {
-      showAlert('Pipeline needs attention', validation.errors, validation.warnings);
+      showToast(
+        {
+          title: 'Pipeline needs attention',
+          status: 'danger',
+          lines: validation.errors,
+          warnings: validation.warnings,
+        },
+        8000,
+      );
       return;
     }
 
@@ -46,46 +71,61 @@ export const SubmitButton = () => {
       }
 
       const data = await response.json();
-      showAlert(
-        data.is_dag ? 'Pipeline analysis passed' : 'Cycle detected in pipeline',
-        [
-          `Nodes: ${data.num_nodes}`,
-          `Edges: ${data.num_edges}`,
-          `Is DAG: ${data.is_dag ? 'Yes' : 'No'}`,
-        ],
-        validation.warnings,
+      const isDag = Boolean(data.is_dag);
+      showToast(
+        {
+          title: isDag ? 'Pipeline analysis passed' : 'Cycle detected in pipeline',
+          status: isDag ? 'success' : 'warning',
+          lines: [
+            `Nodes: ${data.num_nodes}`,
+            `Edges: ${data.num_edges}`,
+            `Is DAG: ${isDag ? 'True' : 'False'}`,
+          ],
+          warnings: validation.warnings,
+        },
+        6500,
       );
     } catch (error) {
-      showAlert('Unable to analyze pipeline', [error.message]);
+      showToast(
+        {
+          title: 'Unable to analyze pipeline',
+          status: 'danger',
+          lines: [error.message],
+        },
+        8000,
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section className="submit-card">
-      <div>
-        <div className="panel-eyebrow">Validation</div>
-        <h3 className="submit-title">Analyze current pipeline</h3>
-        <p className="submit-copy">
-          Send the current nodes and edges to the FastAPI backend to validate the graph and detect cycles.
-        </p>
-        <p className="submit-note">
-          VectorShift helps teams build and ship AI workflows with a visual pipeline builder, making validation and iteration fast.
-        </p>
-      </div>
-      <button
-        type="button"
-        onClick={submitPipeline}
-        disabled={isSubmitting}
-        className="submit-button"
-        style={{
-          opacity: isSubmitting ? 0.7 : 1,
-          cursor: isSubmitting ? 'wait' : 'pointer',
-        }}
-      >
-        {isSubmitting ? 'Submitting...' : 'Submit'}
-      </button>
-    </section>
+    <>
+      <section className="submit-card">
+        <div>
+          <div className="panel-eyebrow">Validation</div>
+          <h3 className="submit-title">Analyze current pipeline</h3>
+          <p className="submit-copy">
+            Send the current nodes and edges to the FastAPI backend to validate the graph and detect cycles.
+          </p>
+          <p className="submit-note">
+            VectorShift helps teams build and ship AI workflows with a visual pipeline builder, making validation and iteration fast.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={submitPipeline}
+          disabled={isSubmitting}
+          className="submit-button"
+          style={{
+            opacity: isSubmitting ? 0.7 : 1,
+            cursor: isSubmitting ? 'wait' : 'pointer',
+          }}
+        >
+          {isSubmitting ? 'Submitting...' : 'Submit'}
+        </button>
+      </section>
+      <PipelineToast toast={toast} onClose={dismissToast} />
+    </>
   );
 };
